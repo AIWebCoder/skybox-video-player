@@ -1,5 +1,6 @@
-import type { Metadata } from 'next'
+import type { Metadata } from 'next/types'
 import './globals.css'
+import React from 'react'
 
 export const metadata: Metadata = {
   title: 'Skybox VR Player',
@@ -11,10 +12,10 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  return (
-    <html lang="fr">
-      <body>{children}</body>
-    </html>
+  return React.createElement(
+    'html',
+    { lang: 'fr' },
+    React.createElement('body', null, children)
   )
 }
 

@@ -14,18 +14,38 @@ export const videos: VideoItem[] = [
     title: 'Nature Documentary',
     thumbnail: '/thumbnails/video1.jpg',
     duration: '45:32',
+
+    // VR layout
+    positionX: -1.2,
+    positionY: 1.5,
+    positionZ: -2,
+    rotationY: 10,
+    width: 1.2,
+    height: 0.7,
   },
   {
     id: '2',
     title: 'Space Exploration',
     thumbnail: '/thumbnails/video2.jpg',
     duration: '32:15',
+    positionX: 0,
+    positionY: 1.5,
+    positionZ: -2,
+    rotationY: 0,
+    width: 1.2,
+    height: 0.7,
   },
   {
     id: '3',
     title: 'Ocean Depths',
     thumbnail: '/thumbnails/video3.jpg',
     duration: '28:47',
+    positionX: 1.2,
+    positionY: 1.5,
+    positionZ: -2,
+    rotationY: -10,
+    width: 1.2,
+    height: 0.7,
   },
   {
     id: '4',
@@ -94,4 +114,3 @@ export const history: HistoryItem[] = [
     watchedAt: '2024-01-23',
   },
 ];
-
