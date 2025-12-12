@@ -26,6 +26,7 @@ declare global {
       'a-gltf-model': any;
       'a-obj-model': any;
       'a-collada-model': any;
+      'a-rounded': any;
     }
   }
 }

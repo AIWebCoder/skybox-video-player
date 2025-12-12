@@ -23,12 +23,6 @@ export default function VRSkyboxMenu({
   );
 
   useEffect(() => {
-    import("aframe").then(() => {
-      import("@/lib/register-rounded").then(mod => mod.registerRounded());
-    });
-  }, []);
-
-  useEffect(() => {
     if (typeof window === "undefined") return;
 
     const loadAFrame = () => {
@@ -139,6 +133,40 @@ export default function VRSkyboxMenu({
       scene.removeEventListener("loaded", handleSceneLoaded);
     };
   }, [aframeLoaded, onSelectVideo, onSelectChannel]);
+
+  useEffect(() => {
+    if (!aframeLoaded) return;
+  
+    (window as any).AFRAME.registerShader('rounded', {
+      schema: {
+        radius: { type: 'number', default: 0.1 },
+      },
+      vertexShader: `
+        varying vec2 vUv;
+        void main() {
+          vUv = uv;
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+        }
+      `,
+      fragmentShader: `
+        uniform float radius;
+        uniform vec3 color;
+        varying vec2 vUv;
+  
+        void main() {
+          float r = radius;
+          vec2 p = vUv;
+          float alpha = 1.0;
+  
+          vec2 bl = smoothstep(vec2(r), vec2(0.0), p);
+          vec2 tr = smoothstep(vec2(r), vec2(0.0), 1.0 - p);
+          alpha = bl.x * bl.y * tr.x * tr.y;
+  
+          gl_FragColor = vec4(color, alpha);
+        }
+      `
+    });
+  }, [aframeLoaded]);
   
   if (!aframeLoaded) {
     return (
@@ -160,7 +188,11 @@ export default function VRSkyboxMenu({
 
   return (
     <div ref={sceneRef} style={{ width: "100%", height: "100vh" }}>
-      <a-scene vr-mode-ui="enabled: true" embedded style={{ display: assetsLoaded ? "block" : "none" }} >
+      <a-scene
+        vr-mode-ui="enabled: true"
+        embedded
+        style={{ display: assetsLoaded ? "block" : "none" }}
+      >
         <a-assets>
           <a-asset-item id="skybox-glb" src="/models/skybox.glb" />
           {channels.map((ch) => (
@@ -197,12 +229,28 @@ export default function VRSkyboxMenu({
           ))}
         </a-assets>
 
-        <a-entity id="skybox" gltf-model="#skybox-glb" scale="100 100 100" position="0 0 0" />
+        <a-entity
+          id="skybox"
+          gltf-model="#skybox-glb"
+          scale="100 100 100"
+          position="0 0 0"
+        />
 
         <a-light type="ambient" color="#ffffff" intensity="0.5" />
-        <a-light type="directional" position="0 5 0" color="#ffffff" intensity="0.7" cast-shadow="true" />
+        <a-light
+          type="directional"
+          position="0 5 0"
+          color="#ffffff"
+          intensity="0.7"
+          cast-shadow="true"
+        />
 
-        <a-camera id="camera" position="0 1.6 0" wasd-controls="enabled: false" look-controls="enabled: true" >
+        <a-camera
+          id="camera"
+          position="0 1.6 0"
+          wasd-controls="enabled: false"
+          look-controls="enabled: true"
+        >
           <a-cursor
             id="cursor"
             fuse="true"
@@ -216,21 +264,28 @@ export default function VRSkyboxMenu({
         </a-camera>
 
         {/* Left Panel - Channels */}
-        <a-entity id="left-panel" position="-3 1.5 -3" rotation="0 10 0" animation__float="property: position; to: -3 1.6 -3; dur: 3000; easing: easeInOutSine; loop: true; dir: alternate">
-          <a-entity position="0 0 -0.05" geometry="primitive: plane; width: 1.3; height: 2.6" material="color: #000000; opacity: 0.3; transparent: true" />
-          <a-rounded id="left-panel-bg" width="1.5" height="2.5" radius="0.15" color="#2a2c2f" opacity="0.94" depth="0.001"
-            material="shader: flat; transparent: true"
+        <a-entity id="left-panel" position="-3 1.5 -3" rotation="0 10 0" animation__float="property: position; to: -3 1.6 -3; dur: 3000; easing: easeInOutSine; loop: true; dir: alternate" >
+          <a-entity position="0 0 -0.05" geometry="primitive: plane; width: 1.6; height: 2.6" material="color: #000000; opacity: 0.3; shader: flat; transparent: true" />
+          <a-plane
+            id="left-panel-bg"
+            width="1.5"
+            height="2.5"
+            color="#2a2c2f"
+            opacity="0.94"
+            material="shader: rounded; radius: 0.15 ;"
+            geometry="primitive: plane; width: 1.5; height: 2.5"
           />
           {channels.map((channel, index) => (
-            <a-entity key={channel.id} id={`channel-${channel.id}`} position={`0 ${0.8 - index * 0.4} 0.01`} class="clickable" 
-              onClick={() => {
-                console.log("Clicked:", channel.id);
-                alert(`You clicked ${channel.label}`);
-                setSelectedChannel(channel.id); 
-              }}
-            >
-              <a-plane width="1.15" height="0.35" color={ selectedChannel === channel.id ? "#3a3c3f" : "2a2c2f" }
-                opacity={selectedChannel === channel.id ? "0.8" : "0.16"} material="shader: flat; transparent: true;" position="0 0 0"
+            <a-entity key={channel.id} id={`channel-${channel.id}`} position={`0 ${0.8 - index * 0.4} 0.01`} class="clickable" >
+              <a-plane
+                width="1.15"
+                height="0.35"
+                color={
+                  selectedChannel === channel.id ? "#3a3c3f" : "transparent"
+                }
+                opacity={selectedChannel === channel.id ? "0.8" : "0"}
+                material="shader: rounded; radius: 0.15 ;"
+                position="0 0 0"
               />
               {selectedChannel === channel.id && (
                 <a-box width="0.05" height="0.35" depth="0.01" color="#FFD700" position="-0.55 0 0.02" />
@@ -257,10 +312,13 @@ export default function VRSkyboxMenu({
         <a-entity id="center-panel" position="0 1.5 -3" animation__float="property: position; to: 0 1.6 -3; dur: 3000; easing: easeInOutSine; loop: true; dir: alternate" >
           <a-entity position="0 0 -0.05" eometry="primitive: plane; width: 3.6; height: 2.6" material="color: #000000; opacity: 0.3; shader: flat; transparent: true"
           />
-          <a-rounded id="center-panel-bg"
-            width="3.5" height="2.5"
-            color="#2a2c2f" opacity="0.94"
-            material="shader: flat; transparent: true;"
+          <a-plane
+            id="center-panel-bg"
+            width="3.5"
+            height="2.5"
+            color="#2a2c2f"
+            opacity="0.94"
+            material="shader: rounded; radius: 0.15 ;"
             geometry="primitive: plane; width: 3.5; height: 2.5"
           />
           {videos.slice(0, 6).map((video, index) => {
@@ -269,14 +327,53 @@ export default function VRSkyboxMenu({
             const xPos = -1 + col * 1;
             const yPos = 0.7 - row * 1.1;
             return (
-              <a-entity key={video.id} id={`video-${video.id}`} position={`${xPos} ${yPos} 0.01`} class="clickable" >
-                <a-image src={`#thumb-${video.id}`} width="0.9" height="0.5"  position="0 0.15 0.01"
+              <a-entity
+                key={video.id}
+                id={`video-${video.id}`}
+                position={`${xPos} ${yPos} 0.01`}
+                class="clickable"
+              >
+                <a-image
+                  src={`#thumb-${video.id}`}
+                  width="0.9"
+                  height="0.5"
+                  position="0 0.15 0.01"
                 />
-                <a-text value={video.title} color="#ffffff" align="center" position="0 -0.25 0.01" width="3" font="https://cdn.aframe.io/fonts/Exo2SemiBold.fnt" scale="0.6 0.6 0.6" />
-                <a-text value={video.duration} color="#888888" align="center" position="0 -0.4 0.01" width="3" font="https://cdn.aframe.io/fonts/Exo2SemiBold.fnt" scale="0.5 0.5 0.5" />
-                <a-animation attribute="scale" to="1.08 1.08 1.08" dur="200" begin="mouseenter" fill="forwards"/>
-                <a-animation attribute="scale" to="1 1 1" dur="200" begin="mouseleave" fill="forwards"/>
-                <a-entity  position="0 0.15 0.02" geometry="primitive: plane; width: 0.95; height: 0.55"
+                <a-text
+                  value={video.title}
+                  color="#ffffff"
+                  align="center"
+                  position="0 -0.25 0.01"
+                  width="3"
+                  font="https://cdn.aframe.io/fonts/Exo2SemiBold.fnt"
+                  scale="0.6 0.6 0.6"
+                />
+                <a-text
+                  value={video.duration}
+                  color="#888888"
+                  align="center"
+                  position="0 -0.4 0.01"
+                  width="3"
+                  font="https://cdn.aframe.io/fonts/Exo2SemiBold.fnt"
+                  scale="0.5 0.5 0.5"
+                />
+                <a-animation
+                  attribute="scale"
+                  to="1.08 1.08 1.08"
+                  dur="200"
+                  begin="mouseenter"
+                  fill="forwards"
+                />
+                <a-animation
+                  attribute="scale"
+                  to="1 1 1"
+                  dur="200"
+                  begin="mouseleave"
+                  fill="forwards"
+                />
+                <a-entity
+                  position="0 0.15 0.02"
+                  geometry="primitive: plane; width: 0.95; height: 0.55"
                   material="color: #4CC3D9; opacity: 0; shader: flat; transparent: true"
                   animation__glow="property: material.opacity; to: 0.2; dur: 200; begin: mouseenter; fill: forwards"
                   animation__glowoff="property: material.opacity; to: 0; dur: 200; begin: mouseleave; fill: forwards"
@@ -289,13 +386,13 @@ export default function VRSkyboxMenu({
         {/* Right Panel - Favorites & History */}
         <a-entity id="right-panel" position="3 1.5 -3" rotation="0 -10 0" animation__float="property: position; to: 3 1.6 -3; dur: 3000; easing: easeInOutSine; loop: true; dir: alternate" >
           <a-entity position="0 0 -0.05" geometry="primitive: plane; width: 1.6; height: 2.6" material="color: #000000; opacity: 0.3; shader: flat; transparent: true" />
-          <a-rounded
+          <a-plane
             id="right-panel-bg"
             width="1.5"
             height="2.5"
             color="#2a2c2f"
             opacity="0.94"
-            material="shader: flat; transparent: true;"
+            material="shader: rounded; radius: 0.15 ;"
             geometry="primitive: plane; width: 1.5; height: 2.5"
           />
           <a-entity position="0 1 0.01">
