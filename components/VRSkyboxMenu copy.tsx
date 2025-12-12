@@ -305,12 +305,7 @@ export default function VRSkyboxMenu({
         </a-entity>
 
         {/* LEFT PANEL - Channels */}
-        <a-entity
-          id="left-panel"
-          position="-2.2 1.45 -3"
-          rotation="0 10 0"
-          class="panel"
-        >
+        <a-entity id="left-panel" position="-2.2 1.45 -3" rotation="0 10 0" class="panel" >
           {/* soft back shadow */}
           <a-plane
             width="1.35"
