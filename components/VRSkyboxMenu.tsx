@@ -233,7 +233,7 @@ export default function VRSkyboxMenu({
         <a-entity
           id="left-panel"
           position="-1.8 1.5 -3"
-          rotation="0 -5 0"
+          // rotation="0 -5 0"
           animation__float="property: position; to: -1.8 1.6 -3; dur: 3000; easing: easeInOutSine; loop: true; dir: alternate"
         >
           <a-entity
@@ -409,7 +409,7 @@ export default function VRSkyboxMenu({
         <a-entity
           id="right-panel"
           position="1.8 1.5 -3"
-          rotation="0 5 0"
+          // rotation="0 5 0"
           animation__float="property: position; to: 1.8 1.6 -3; dur: 3000; easing: easeInOutSine; loop: true; dir: alternate"
         >
           <a-entity
