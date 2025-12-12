@@ -230,30 +230,19 @@ export default function VRSkyboxMenu({
         </a-camera>
 
         {/* Left Panel - Channels */}
-        <a-entity id="left-panel" position="-3 1.5 -3" rotation="0 10 0"
-          animation__float="property: position; to: -3 1.6 -3; dur: 3000; easing: easeInOutSine; loop: true; dir: alternate"
-        >
-          <a-entity
-            position="0 0 -0.05"
-            geometry="primitive: plane; width: 1.3; height: 2.6"
-            material="color: #000000; opacity: 0.3; shader: flat; transparent: true"
-          />
+        <a-entity id="left-panel" position="-3 1.5 -3" rotation="0 10 0" animation__float="property: position; to: -3 1.6 -3; dur: 3000; easing: easeInOutSine; loop: true; dir: alternate" >
+          <a-entity position="0 0 -0.05" geometry="primitive: plane; width: 1.6; height: 2.6" material="color: #000000; opacity: 0.3; shader: flat; transparent: true" />
           <a-plane
             id="left-panel-bg"
-            width="1.2"
+            width="1.5"
             height="2.5"
             color="#2a2c2f"
             opacity="0.94"
             material="shader: flat; transparent: true"
-            geometry="primitive: plane; width: 1.2; height: 2.5"
+            geometry="primitive: plane; width: 1.5; height: 2.5"
           />
           {channels.map((channel, index) => (
-            <a-entity
-              key={channel.id}
-              id={`channel-${channel.id}`}
-              position={`0 ${0.8 - index * 0.4} 0.01`}
-              class="clickable"
-            >
+            <a-entity key={channel.id} id={`channel-${channel.id}`} position={`0 ${0.8 - index * 0.4} 0.01`} class="clickable" >
               <a-plane
                 width="1.15"
                 height="0.35"
@@ -265,71 +254,29 @@ export default function VRSkyboxMenu({
                 position="0 0 0"
               />
               {selectedChannel === channel.id && (
-                <a-box
-                  width="0.05"
-                  height="0.35"
-                  depth="0.01"
-                  color="#FFD700"
-                  position="-0.55 0 0.02"
-                />
+                <a-box width="0.05" height="0.35" depth="0.01" color="#FFD700" position="-0.55 0 0.02" />
               )}
-              <a-image
-                src={`#icon-${channel.id}`}
-                width="0.2"
-                height="0.2"
-                position="-0.4 0 0.01"
-              />
+              <a-image src={`#icon-${channel.id}`} width="0.2" height="0.2" position="-0.4 0 0.01" />
               <a-text
                 value={channel.label}
                 color={selectedChannel === channel.id ? "#FFD700" : "#ffffff"}
                 align="left"
                 position="-0.15 0 0.01"
-                width="5"
+                width="3"
                 font="https://cdn.aframe.io/fonts/Exo2SemiBold.fnt"
                 scale="0.8 0.8 0.8"
               />
-              <a-animation
-                attribute="scale"
-                to="1.05 1.05 1.05"
-                dur="200"
-                begin="mouseenter"
-                fill="forwards"
-              />
-              <a-animation
-                attribute="scale"
-                to="1 1 1"
-                dur="200"
-                begin="mouseleave"
-                fill="forwards"
-              />
-              <a-animation
-                attribute="position"
-                to="0 0.8 0.01"
-                dur="200"
-                begin="mouseenter"
-                fill="forwards"
-              />
-              <a-animation
-                attribute="position"
-                to={`0 ${0.8 - index * 0.4} 0.01`}
-                dur="200"
-                begin="mouseleave"
-                fill="forwards"
-              />
+              <a-animation attribute="scale" to="1.05 1.05 1.05" dur="200" begin="mouseenter" fill="forwards" />
+              <a-animation attribute="scale" to="1 1 1" dur="200" begin="mouseleave" fill="forwards" />
+              <a-animation attribute="position" to="0 0.8 0.01" dur="200" begin="mouseenter" fill="forwards" />
+              <a-animation attribute="position" to={`0 ${0.8 - index * 0.4} 0.01`} dur="200" begin="mouseleave" fill="forwards" />
             </a-entity>
           ))}
         </a-entity>
 
         {/* Center Panel - Video Grid */}
-        <a-entity
-          id="center-panel"
-          position="0 1.5 -3"
-          animation__float="property: position; to: 0 1.6 -3; dur: 3000; easing: easeInOutSine; loop: true; dir: alternate"
-        >
-          <a-entity
-            position="0 0 -0.05"
-            geometry="primitive: plane; width: 3.6; height: 2.6"
-            material="color: #000000; opacity: 0.3; shader: flat; transparent: true"
+        <a-entity id="center-panel" position="0 1.5 -3" animation__float="property: position; to: 0 1.6 -3; dur: 3000; easing: easeInOutSine; loop: true; dir: alternate" >
+          <a-entity position="0 0 -0.05" eometry="primitive: plane; width: 3.6; height: 2.6" material="color: #000000; opacity: 0.3; shader: flat; transparent: true"
           />
           <a-plane
             id="center-panel-bg"
@@ -403,14 +350,8 @@ export default function VRSkyboxMenu({
         </a-entity>
 
         {/* Right Panel - Favorites & History */}
-        <a-entity id="right-panel" position="3 1.5 -3" rotation="0 -10 0"
-          animation__float="property: position; to: 3 1.6 -3; dur: 3000; easing: easeInOutSine; loop: true; dir: alternate"
-        >
-          <a-entity
-            position="0 0 -0.05"
-            geometry="primitive: plane; width: 1.6; height: 2.6"
-            material="color: #000000; opacity: 0.3; shader: flat; transparent: true"
-          />
+        <a-entity id="right-panel" position="3 1.5 -3" rotation="0 -10 0" animation__float="property: position; to: 3 1.6 -3; dur: 3000; easing: easeInOutSine; loop: true; dir: alternate" >
+          <a-entity position="0 0 -0.05" geometry="primitive: plane; width: 1.6; height: 2.6" material="color: #000000; opacity: 0.3; shader: flat; transparent: true" />
           <a-plane
             id="right-panel-bg"
             width="1.5"
