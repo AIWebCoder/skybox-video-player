@@ -231,7 +231,7 @@ export default function VRSkyboxMenu({
 
         {/* Left Panel - Channels */}
         <a-entity id="left-panel" position="-3 1.5 -3" rotation="0 10 0"
-          animation__float="property: position; to: -1.8 1.6 -3; dur: 3000; easing: easeInOutSine; loop: true; dir: alternate"
+          animation__float="property: position; to: -3 1.6 -3; dur: 3000; easing: easeInOutSine; loop: true; dir: alternate"
         >
           <a-entity
             position="0 0 -0.05"
@@ -404,7 +404,7 @@ export default function VRSkyboxMenu({
 
         {/* Right Panel - Favorites & History */}
         <a-entity id="right-panel" position="3 1.5 -3" rotation="0 -10 0"
-          animation__float="property: position; to: 1.8 1.6 -3; dur: 3000; easing: easeInOutSine; loop: true; dir: alternate"
+          animation__float="property: position; to: 3 1.6 -3; dur: 3000; easing: easeInOutSine; loop: true; dir: alternate"
         >
           <a-entity
             position="0 0 -0.05"
