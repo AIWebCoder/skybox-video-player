@@ -238,7 +238,7 @@ export default function VRSkyboxMenu({
             height="2.5"
             color="#2a2c2f"
             opacity="0.94"
-            material="shader: flat; transparent: true"
+            material="shader: rounded; radius: 0.15; color: #222;"
             geometry="primitive: plane; width: 1.5; height: 2.5"
           />
           {channels.map((channel, index) => (
@@ -250,7 +250,7 @@ export default function VRSkyboxMenu({
                   selectedChannel === channel.id ? "#3a3c3f" : "transparent"
                 }
                 opacity={selectedChannel === channel.id ? "0.8" : "0"}
-                material="shader: flat; transparent: true"
+                material="shader: rounded; radius: 0.15; color: #222;"
                 position="0 0 0"
               />
               {selectedChannel === channel.id && (
@@ -284,7 +284,7 @@ export default function VRSkyboxMenu({
             height="2.5"
             color="#2a2c2f"
             opacity="0.94"
-            material="shader: flat; transparent: true"
+            material="shader: rounded; radius: 0.15; color: #222;"
             geometry="primitive: plane; width: 3.5; height: 2.5"
           />
           {videos.slice(0, 6).map((video, index) => {
@@ -358,7 +358,7 @@ export default function VRSkyboxMenu({
             height="2.5"
             color="#2a2c2f"
             opacity="0.94"
-            material="shader: flat; transparent: true"
+            material="shader: rounded; radius: 0.15; color: #222;"
             geometry="primitive: plane; width: 1.5; height: 2.5"
           />
           <a-entity position="0 1 0.01">
