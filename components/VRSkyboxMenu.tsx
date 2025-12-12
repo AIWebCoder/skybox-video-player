@@ -203,7 +203,7 @@ export default function VRSkyboxMenu({
         <a-light type="directional" position="0 5 0" color="#ffffff" intensity="0.7" cast-shadow="true" />
 
         <a-camera id="camera" position="0 1.6 0" wasd-controls="enabled: false" look-controls="enabled: true" >
-          <a-cursor
+          {/* <a-cursor
             id="cursor"
             fuse="true"
             fuse-timeout="600"
@@ -212,7 +212,7 @@ export default function VRSkyboxMenu({
             animation__mouseleave="property: scale; startEvents: mouseleave; from: 0.8 0.8 0.8; to: 1 1 1; dur: 200"
             geometry="primitive: ring; radiusInner: 0.02; radiusOuter: 0.03"
             material="color: #4CC3D9; shader: flat"
-          />
+          /> */}
         </a-camera>
 
         {/* Left Panel - Channels */}
@@ -374,6 +374,8 @@ export default function VRSkyboxMenu({
               </a-entity>
             ))}
         </a-entity>
+        <a-entity laser-controls="hand: left"></a-entity>
+        <a-entity laser-controls="hand: right"></a-entity>
       </a-scene>
 
       {!assetsLoaded && (
