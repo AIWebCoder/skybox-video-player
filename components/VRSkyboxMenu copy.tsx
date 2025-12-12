@@ -348,7 +348,7 @@ export default function VRSkyboxMenu({
                 align="left"
                 position="-0.05 0 0.02"
                 color={selectedChannel === ch.id ? "#FFD700" : "#ffffff"}
-                width="4"
+                width="3"
                 font="https://cdn.aframe.io/fonts/Exo2SemiBold.fnt"
                 scale="0.8 0.8 0.8"
               />
