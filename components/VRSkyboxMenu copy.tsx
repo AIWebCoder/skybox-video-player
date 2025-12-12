@@ -307,21 +307,9 @@ export default function VRSkyboxMenu({
         {/* LEFT PANEL - Channels */}
         <a-entity id="left-panel" position="-2.2 1.45 -3" rotation="0 10 0" class="panel" >
           {/* soft back shadow */}
-          <a-plane
-            width="1.35"
-            height="2.7"
-            position="0 0 -0.06"
-            material="color:#000000; opacity:0.25; shader: flat"
-          ></a-plane>
-
+          <a-plane  width="1.65" height="2.8" position="0 0 -0.06" material="color:#000000; opacity:0.25; shader: flat" ></a-plane>
           {/* foreground panel */}
-          <a-plane
-            width="1.25"
-            height="2.5"
-            color="#2a2c2f"
-            position="0 0 0"
-            material="shader: flat; transparent: true; opacity:0.96"
-          ></a-plane>
+          <a-plane width="1.65" height="2.8" color="#2a2c2f" position="0 0 0" material="shader: flat; transparent: true; opacity:0.96" ></a-plane>
 
           {/* channel items */}
           {channels.map((ch, i) => (
@@ -382,7 +370,7 @@ export default function VRSkyboxMenu({
         </a-entity>
 
         {/* CENTER PANEL - Grid (fake curved by 3 columns rotated) */}
-        <a-entity id="center-panel" position="0 1.5 -3" rotation="0 0 0">
+        <a-entity id="center-panel" position="0 0 -3" rotation="0 0 0">
           {/* subtle back shadow */}
           <a-plane
             width="3.75"
@@ -481,19 +469,8 @@ export default function VRSkyboxMenu({
 
         {/* RIGHT PANEL - Favorites / History */}
         <a-entity id="right-panel" position="2.2 1.45 -3" rotation="0 -10 0">
-          <a-plane
-            width="1.65"
-            height="2.8"
-            position="0 0 -0.06"
-            material="color:#000000; opacity:0.25; shader: flat"
-          ></a-plane>
-          <a-plane
-            width="1.55"
-            height="2.6"
-            position="0 0 0"
-            color="#2a2c2f"
-            material="shader: flat; transparent: true; opacity:0.96"
-          ></a-plane>
+          <a-plane width="1.65" height="2.8" position="0 0 -0.06" material="color:#000000; opacity:0.25; shader: flat"></a-plane>
+          <a-plane width="1.65" height="2.8" position="0 0 0" color="#2a2c2f" material="shader: flat; transparent: true; opacity:0.96"></a-plane>
 
           <a-entity position="0 1 0.01">
             <a-text
