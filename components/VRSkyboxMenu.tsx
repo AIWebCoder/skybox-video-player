@@ -134,6 +134,41 @@ export default function VRSkyboxMenu({
     };
   }, [aframeLoaded, onSelectVideo, onSelectChannel]);
 
+  useEffect(() => {
+    if (!aframeLoaded) return;
+  
+    (window as any).AFRAME.registerShader('rounded', {
+      schema: {
+        radius: { type: 'number', default: 0.1 },
+        color: { type: 'color', default: '#333' }
+      },
+      vertexShader: `
+        varying vec2 vUv;
+        void main() {
+          vUv = uv;
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+        }
+      `,
+      fragmentShader: `
+        uniform float radius;
+        uniform vec3 color;
+        varying vec2 vUv;
+  
+        void main() {
+          float r = radius;
+          vec2 p = vUv;
+          float alpha = 1.0;
+  
+          vec2 bl = smoothstep(vec2(r), vec2(0.0), p);
+          vec2 tr = smoothstep(vec2(r), vec2(0.0), 1.0 - p);
+          alpha = bl.x * bl.y * tr.x * tr.y;
+  
+          gl_FragColor = vec4(color, alpha);
+        }
+      `
+    });
+  }, [aframeLoaded]);
+  
   if (!aframeLoaded) {
     return (
       <div
