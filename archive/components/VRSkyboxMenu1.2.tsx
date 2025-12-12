@@ -216,51 +216,42 @@ export default function VRSkyboxMenu({
         </a-camera>
 
         {/* Left Panel - Channels */}
-        <a-entity id="left-panel" position="-3 1.5 -3" rotation="0 10 0"
-          animation__float=" property: position; to: -3 1.6 -3; dur: 3000; easing: easeInOutSine; loop: true; dir: alternate"
-        >
-
-          {/* Panel background (solid geometry so the raycaster sees it) */}
-          <a-plane id="left-panel-bg" class="clickable" geometry="primitive: plane; width: 1.5; height: 2.5"
-            material="color: #2a2c2f; opacity: 0.94; shader: flat; transparent: true" position="0 0 0"
-          ></a-plane>
-
-          {/* Channel list */}
+        <a-entity id="left-panel" position="-3 1.5 -3" rotation="0 10 0" animation__float="property: position; to: -3 1.6 -3; dur: 3000; easing: easeInOutSine; loop: true; dir: alternate">
+          <a-entity position="0 0 -0.05" geometry="primitive: plane; width: 1.3; height: 2.6" material="color: #000000; opacity: 0.3; transparent: true" />
+          <a-rounded id="left-panel-bg" width="1.5" height="2.5" radius="0.15" color="#2a2c2f" opacity="0.94" depth="0.001"
+            material="shader: flat; transparent: true" class="clickable"
+          />
           {channels.map((channel, index) => (
-            <a-entity
-              key={channel.id}
-              class="clickable"
-              position={`0 ${0.8 - index * 0.4} 0.02`}
-              events={{
-                click: () => {
-                  console.log("Clicked:", channel.id);
-                  alert(`You clicked ${channel.label}`);
-                  setSelectedChannel(channel.id);
-                },
+            <a-entity key={channel.id} id={`channel-${channel.id}`} position={`0 ${0.8 - index * 0.4} 0.01`} class="clickable" 
+              onClick={() => {
+                console.log("Clicked:", channel.id);
+                alert(`You clicked ${channel.label}`);
+                setSelectedChannel(channel.id); 
               }}
             >
-              {/* Selectable button */}
-              <a-plane class="clickable" geometry="primitive: plane; width: 1.15; height: 0.35"
-                material={`color: ${ selectedChannel === channel.id ? "#3a3c3f" : "#2a2c2f" }; opacity: ${  selectedChannel === channel.id ? "0.8" : "0.16" }; shader: flat; transparent: true`}
-              ></a-plane>
-
-              {/* Golden bar when selected */}
+              <a-plane width="1.15" height="0.35" color={ selectedChannel === channel.id ? "#3a3c3f" : "2a2c2f" } class="clickable"
+                opacity={selectedChannel === channel.id ? "0.8" : "0.16"} material="shader: flat; transparent: true;" position="0 0 0"
+              />
               {selectedChannel === channel.id && (
-                <a-box color="#FFD700" width="0.05" height="0.35" depth="0.01" position="-0.55 0 0.01"></a-box>
+                <a-box width="0.05" height="0.35" depth="0.01" color="#FFD700" position="-0.55 0 0.02" />
               )}
-
-              {/* Icon */}
-              <a-image class="clickable" src={`#icon-${channel.id}`} width="0.2" height="0.2" position="-0.4 0 0.02"></a-image>
-
-              {/* Label */}
-              <a-text value={channel.label} color={selectedChannel === channel.id ? "#FFD700" : "#ffffff"} align="left" position="-0.15 0 0.02" width="3"
-                font="https://cdn.aframe.io/fonts/Exo2SemiBold.fnt" scale="0.8 0.8 0.8"
-              ></a-text>
-
+              <a-image src={`#icon-${channel.id}`} width="0.2" height="0.2" position="-0.4 0 0.01" />
+              <a-text
+                value={channel.label}
+                color={selectedChannel === channel.id ? "#FFD700" : "#ffffff"}
+                align="left"
+                position="-0.15 0 0.01"
+                width="3"
+                font="https://cdn.aframe.io/fonts/Exo2SemiBold.fnt"
+                scale="0.8 0.8 0.8"
+              />
+              <a-animation attribute="scale" to="1.05 1.05 1.05" dur="200" begin="mouseenter" fill="forwards" />
+              <a-animation attribute="scale" to="1 1 1" dur="200" begin="mouseleave" fill="forwards" />
+              <a-animation attribute="position" to="0 0.8 0.01" dur="200" begin="mouseenter" fill="forwards" />
+              <a-animation attribute="position" to={`0 ${0.8 - index * 0.4} 0.01`} dur="200" begin="mouseleave" fill="forwards" />
             </a-entity>
           ))}
         </a-entity>
-
 
         {/* Center Panel - Video Grid */}
         <a-entity id="center-panel" position="0 1.5 -3" animation__float="property: position; to: 0 1.6 -3; dur: 3000; easing: easeInOutSine; loop: true; dir: alternate" >
